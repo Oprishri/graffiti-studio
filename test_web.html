@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAFFITI STUDIO | Visual Chaos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Rubik+Glitch&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE VARIABLES --- */
+        :root {
+            --primary-orange: #ff4500; /* Vermilion */
+            --deep-black: #050505;
+            --off-white: #f0f0f0;
+            --grunge-gray: #1a1a1a;
+        }
+
+        /* --- GLOBAL RESET & TEXTURE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: var(--off-white);
+            font-family: 'Oswald', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.08;
+            background: url('https://cdnjs.cloudflare.com/ajax/libs/media-element/4.2.16/renderers/dailymotion.png');
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { text-transform: uppercase; }
+        .glitch-font { font-family: 'Cabin Sketch', system-ui; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 10px 5%; /* Reduced top/bottom padding slightly for the image */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(23, 23, 23, 0.95);
+            border-bottom: 2px solid var(--primary-orange);
+            clip-path: ;
+        }
+
+        /* UPDATED LOGO STYLES FOR IMAGE */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 80px; /* Adjust height as needed */
+            width: auto;
+            /* Optional: Adds a white drop shadow to make it pop off the dark background, matching the previous text style */
+            filter: drop-shadow(2px 2px 0px #fff); 
+            transition: 0.3s;
+        }
+
+        .nav-logo:hover img {
+             transform: scale(1.05) rotate(-2deg);
+        }
+
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: 1.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-orange);
+            text-shadow: 0 0 10px var(--primary-orange);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* VIDEO BACKGROUND SETUP */
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: 50%;
+            height: 50%;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            opacity: 0.4; /* Dimmed so text pops */
+            filter: grayscale(50%) contrast(.9); /* Grunge video effect */
+        }
+
+        .hero-content {
+            z-index: 10;
+            text-align: center;
+            max-width: 800px;
+            background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%); /* fadding effect
+            /* Text backing to ensure readability over video */
+            
+            padding: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        .main-title {
+            font-size: clamp(3rem, 10vw, 7rem); /* Responsive text size */
+            line-height: 0.9;
+            color: var(--off-white);
+            margin-bottom: 20px;
+            transform: rotate(-2deg);
+        }
+
+        .main-title span {
+            color: var(--primary-orange);
+            display: block;
+        }
+
+        .hero-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .hero-btn:hover {
+            background: var(--primary-orange);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary-orange);
+        }
+
+        /* --- SERVICES SECTION --- */
+        .section-container {
+            padding: 100px 10%;
+            position: relative;
+           /* ---  background-image: url("/Users/priya/Desktop/BG.png");
+            background-size: 85%;
+            opacity: 0.4; --- */
+            
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 60px;
+            color: var(--primary-orange);
+            border-left: 10px solid #fff;
+            padding-left: 20px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--grunge-gray);
+            padding: 30px;
+            border: 1px solid #333;
+            transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-orange);
+            background: #222;
+        }
+
+        .service-card h3 {
+            color: var(--primary-orange);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-card ul { list-style: none; color: #ccc; }
+        .service-card li::before { content: ">> "; color: var(--primary-orange); }
+
+        /* --- PORTFOLIO (THE WALL) --- */
+        .portfolio-grid {
+            display: grid;
+            /* CORRECTION: Responsive Grid for Mobile */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .portfolio-item {
+            height: 250px;
+            background-color: #333;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #000;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: 0.5s;
+        }
+
+        .portfolio-item:hover img {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 69, 0, 0.9);
+            color: #000;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .portfolio-item:hover .portfolio-overlay { transform: translateY(0); }
+
+
+        /* --- CLIENTS (THE WALL) --- */
+        .clients-grid {
+            display: grid;
+            /* CORRECTION: Responsive Grid for Mobile */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .clients-item {
+            height: 250px;
+            background-color: #333;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #000;
+        }
+
+        .clients-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: 0.5s;
+        }
+
+        .clients-item:hover img {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.1);
+        }
+
+        .clients-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 69, 0, 0.9);
+            color: #000;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .clients-item:hover .clients-overlay { transform: translateY(0); }
+
+
+        /* --- CONTACT SECTION --- */
+        .contact-section {
+            background: linear-gradient(to bottom, #050505, #150500);
+            border-top: 5px solid var(--primary-orange);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #555;
+            padding: 15px;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        
+        /* Fix for select dropdown options visibility */
+        .form-group select option { background: #000; color: #fff; }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-bottom-color: var(--primary-orange);
+            background: rgba(255, 69, 0, 0.05);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #000;
+            color: #555;
+            border-top: 1px dashed #333;
+        }
+
+        /* --- MOBILE RESPONSIVENESS CORRECTION --- */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px;
+                clip-path: none;
+                border-bottom: 3px solid var(--primary-orange);
+            }
+            .nav-logo img {
+                height: 60px; /* Slightly smaller logo on mobile */
+            }
+            .nav-links {
+                margin-top: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links a { margin: 5px 10px; font-size: 0.9rem; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+
+    <nav>
+        <a href="#home" class="nav-logo">
+            <img src="/Users/priya/Desktop/GRAFFITI STUDIO.png" alt="Graffiti Studio">
+            <TEXT style="color: rgb(235, 235, 242); font-weight: 500; font-size: 45px; margin-left: 40px;">GRAFFITI STUDIO</TEXT>
+        </a>
+        
+        <div class="nav-links">
+            <a href="#home">HOME</a>
+            <a href="#services">SERVICES</a>
+            <a href="#portfolio">PORTFOLIO</a>
+            <a href="#client">CLIENTS</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <video class="video-bg" autoplay muted loop playsinline poster="/Users/priya/Desktop/BG.png">
+            <source src="" type="">
+            Your browser does not support HTML5 video.
+        </video>
+
+        <div class="hero-content">
+            <h1 class="main-title glitch-font">
+                 WE CREATE <br>
+                <span style="font-size: 10rem;">CHAOS</span>
+            </h1>
+            <p style="font-size: 1.5rem; letter-spacing: 3px; margin-bottom: 20px;">From Script to Screen, Seamlessly!</p>
+            
+            <button class="hero-btn" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">LET'S START</button>
+        </div>
+    </section>
+
+    <section id="services" class="section-container">
+        <h2 class="section-title glitch-font">WHAT WE DO</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>FILM & VIDEO</h3>
+                <ul>
+                    <li>Video Shooting</li>
+                    <li>Film Making</li>
+                    <li>Line Production</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>POST PRODUCTION</h3>
+                <ul>
+                    <li>Professional Editing</li>
+                    <li>Color Grading</li>
+                    <li>VFX & Compositing</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>DESIGN & ADS</h3>
+                <ul>
+                    <li>Graphic Designing</li>
+                    <li>Advertising Campaigns</li>
+                    <li>Brand Identity</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>AUDIO & AI</h3>
+                <ul>
+                    <li>Song Making</li>
+                    <li>Sound Design</li>
+                    <li>AI Video Generation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section-container">
+        <h2 class="section-title glitch-font" style="text-align: right; border-left: none; border-right: 10px solid #fff; padding-right: 20px;">THE WORK</h2>
+        
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1533518463841-d62e1fc91373?q=80&w=800&auto=format&fit=crop" alt="Graffiti Art">
+                <div class="portfolio-overlay">URBAN SHOOT</div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Technology">
+                <div class="portfolio-overlay">AI GENERATION</div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=800&auto=format&fit=crop" alt="Music">
+                <div class="portfolio-overlay">MUSIC VIDEO</div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1626785774573-4b7993143c03?q=80&w=800&auto=format&fit=crop" alt="Editing">
+                <div class="portfolio-overlay">COMMERCIAL AD</div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=800&auto=format&fit=crop" alt="Film">
+                <div class="portfolio-overlay">DOCUMENTARY</div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Abstract">
+                <div class="portfolio-overlay">VFX / GFX</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="clients" class="section-container">
+        <h2 class="section-title glitch-font" style="text-align: right; border-left: none; border-right: 10px solid #fff; padding-right: 20px;">Our clients</h2>
+        
+        <div class="clients-grid">
+            <div class="clients-item">
+                <img src="https://images.unsplash.com/photo-1533518463841-d62e1fc91373?q=80&w=800&auto=format&fit=crop" alt="Graffiti Art">
+                <div class="clients-overlay">URBAN SHOOT</div>
+            </div>
+            <div class="clients-item">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Technology">
+                <div class="clients-overlay">AI GENERATION</div>
+            </div>
+            <div class="clients-item">
+                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=800&auto=format&fit=crop" alt="Music">
+                <div class="clients-overlay">MUSIC VIDEO</div>
+            </div>
+            <div class="clients-item">
+                <img src="https://images.unsplash.com/photo-1626785774573-4b7993143c03?q=80&w=800&auto=format&fit=crop" alt="Editing">
+                <div class="clients-overlay">COMMERCIAL AD</div>
+            </div>
+            <div class="clients-item">
+                <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=800&auto=format&fit=crop" alt="Film">
+                <div class="clients-overlay">DOCUMENTARY</div>
+            </div>
+            <div class="clients-item">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Abstract">
+                <div class="clients-overlay">VFX / GFX</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-container contact-section">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
+            <div style="flex: 1; min-width: 300px;">
+                <h2 class="section-title glitch-font">We Dive Deep, <br > So You Rise High!</h2>
+                <p>Ready to create something loud? Fill out the form.</p>
+                <br>
+                <p><strong>EMAIL:</strong> rishianand@graffitistudio.in</p>
+                <p><strong>PHONE:</strong> +91 9871097871</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px;">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="YOUR NAME" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="YOUR EMAIL" required>
+                    </div>
+                    <div class="form-group">
+                        
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="4" placeholder="TELL US ABOUT THE CHAOS..."></textarea>
+                    </div>
+                    <button class="hero-btn" type="submit" style="width: 100%; margin-top: 20px;">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2018 GRAFFITI STUDIO. ALL RIGHTS RESERVED.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.5;"></p>
+    </footer>
+
+    <script>
+        // Simple JS for a "glitch" effect on title hover
+        const title = document.querySelector('.main-title');
+        
+        title.addEventListener('mouseenter', () => {
+            title.style.textShadow = "4px 4px 0px var(--primary-orange), -4px -4px 0px blue";
+        });
+
+        title.addEventListener('mouseleave', () => {
+            title.style.textShadow = "none";
+        });
+
+        // Smooth Scroll for Nav Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
