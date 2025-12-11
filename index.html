@@ -50,23 +50,53 @@
         /* --- TYPOGRAPHY --- */
         h1, h2, h3 { text-transform: uppercase; }
         .glitch-font { font-family: 'Cabin Sketch', system-ui; }
+        
+        .graffiti-shake {
+            font-family: 'YourFontName', sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 40px;"
+            }
 
+            /* Hover State */
+            .graffiti-shake:hover {
+            color: #ff4500; /* Your Orange Color */
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+            text-shadow: 2px 2px 0px rgba(255, 69, 0, 0.4); /* Glow effect */
+            }
+
+            @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+            }
         /* --- NAVIGATION --- */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 10px 5%; /* Reduced top/bottom padding slightly for the image */
+            padding: 10px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
             background: rgba(23, 23, 23, 0.95);
             border-bottom: 2px solid var(--primary-orange);
-            clip-path: ;
         }
 
-        /* UPDATED LOGO STYLES FOR IMAGE */
         .nav-logo {
             display: flex;
             align-items: center;
@@ -74,9 +104,8 @@
         }
 
         .nav-logo img {
-            height: 80px; /* Adjust height as needed */
+            height: 80px;
             width: auto;
-            /* Optional: Adds a white drop shadow to make it pop off the dark background, matching the previous text style */
             filter: drop-shadow(2px 2px 0px #fff); 
             transition: 0.3s;
         }
@@ -111,7 +140,6 @@
             background: #000;
         }
 
-        /* VIDEO BACKGROUND SETUP */
         .video-bg {
             position: absolute;
             top: 50%;
@@ -122,23 +150,21 @@
             height: 50%;
             z-index: 0;
             transform: translate(-50%, -50%);
-            opacity: 0.4; /* Dimmed so text pops */
-            filter: grayscale(50%) contrast(.9); /* Grunge video effect */
+            opacity: 0.4;
+            filter: grayscale(50%) contrast(.9);
         }
 
         .hero-content {
             z-index: 10;
             text-align: center;
             max-width: 800px;
-            background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%); /* fadding effect
-            /* Text backing to ensure readability over video */
-            
+            background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
             padding: 40px;
             backdrop-filter: blur(2px);
         }
 
         .main-title {
-            font-size: clamp(3rem, 10vw, 7rem); /* Responsive text size */
+            font-size: clamp(3rem, 10vw, 7rem);
             line-height: 0.9;
             color: var(--off-white);
             margin-bottom: 20px;
@@ -175,10 +201,6 @@
         .section-container {
             padding: 100px 10%;
             position: relative;
-           /* ---  background-image: url("/Users/priya/Desktop/BG.png");
-            background-size: 85%;
-            opacity: 0.4; --- */
-            
         }
 
         .section-title {
@@ -218,23 +240,48 @@
         .service-card ul { list-style: none; color: #ccc; }
         .service-card li::before { content: ">> "; color: var(--primary-orange); }
 
-        /* --- PORTFOLIO (THE WALL) --- */
-        .portfolio-grid {
-            display: grid;
-            /* CORRECTION: Responsive Grid for Mobile */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+/* --- PORTFOLIO MARQUEE SPECIFIC STYLES --- */
+        .marquee-container-work {
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+            padding: 50px 0;
+            position: relative;
+            border-bottom: 1px solid #333;
         }
 
-        .portfolio-item {
+        /* Side Fades */
+        .marquee-container-work::before, .marquee-container-work::after {
+            content: "";
+            position: absolute;
+            top: 0; width: 100px; height: 100%; z-index: 2; pointer-events: none;
+        }
+        .marquee-container-work::before { left: 0; background: linear-gradient(to right, #050505, transparent); }
+        .marquee-container-work::after { right: 0; background: linear-gradient(to left, #050505, transparent); }
+
+        .marquee-track-work {
+            display: flex;
+            gap: 20px; /* Space between images */
+            /* Calculation: 28 items * (400px width + 20px gap) = ~11760px */
+            width: max-content; 
+            animation: scroll-work 60s linear infinite; 
+        }
+
+        .marquee-track-work:hover {
+            animation-play-state: paused;
+        }
+
+        /* Specific styling for work items inside the slider */
+        .portfolio-slide {
+            min-width: 400px; /* Fixed width is crucial for smooth sliding */
             height: 250px;
-            background-color: #333;
             position: relative;
             overflow: hidden;
-            border: 1px solid #000;
+            border: 1px solid #333;
+            flex-shrink: 0;
         }
 
-        .portfolio-item img {
+        .portfolio-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -242,12 +289,13 @@
             transition: 0.5s;
         }
 
-        .portfolio-item:hover img {
+        .portfolio-slide:hover img {
             filter: grayscale(0%) contrast(1);
             transform: scale(1.1);
         }
 
-        .portfolio-overlay {
+        /* The Overlay Text */
+        .portfolio-slide .portfolio-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -258,55 +306,107 @@
             transform: translateY(100%);
             transition: 0.3s;
             font-weight: bold;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
         }
 
-        .portfolio-item:hover .portfolio-overlay { transform: translateY(0); }
-
-
-        /* --- CLIENTS (THE WALL) --- */
-        .clients-grid {
-            display: grid;
-            /* CORRECTION: Responsive Grid for Mobile */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+        .portfolio-slide:hover .portfolio-overlay {
+            transform: translateY(0);
         }
 
-        .clients-item {
-            height: 250px;
-            background-color: #333;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #000;
-        }
+/* --- THE ANIMATION CALCULATION --- */
+@keyframes scroll-work {
+    0% { transform: translateX(0); }
+    /* We have 28 images per set.
+       Width (400px) + Gap (20px) = 420px per item.
+       28 items * 420px = 11760px.
+       We move left by exactly one set's width.
+    */
+    100% { transform: translateX(-11760px); }
+}
 
-        .clients-item img {
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .portfolio-slide { min-width: 300px; height: 200px; }
+    @keyframes scroll-work {
+        /* Recalculated for mobile width (300+20) * 28 = 8960px */
+        100% { transform: translateX(-8960px); }
+    }
+}
+
+       
+
+
+        /* --- MARQUEE CLIENTS SECTION (NEW) --- */
+        .marquee-container {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(1.2);
-            transition: 0.5s;
+            overflow: hidden;
+            background: var(--deep-black); 
+            padding: 40px 0;
+            position: relative;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
         }
 
-        .clients-item:hover img {
-            filter: grayscale(0%) contrast(1);
+        /* Fade effect on sides */
+        .marquee-container::before, .marquee-container::after {
+            content: "";
+            position: absolute;
+            top: 0; 
+            width: 150px; 
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .marquee-container::before {
+            left: 0;
+            background: linear-gradient(to right, var(--deep-black), transparent);
+        }
+        .marquee-container::after {
+            right: 0;
+            background: linear-gradient(to left, var(--deep-black), transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            /* 14 logos * 200px width per slide = animation width calculation below */
+            animation: scroll 15s linear infinite;
+        }
+
+        /* Pause animation on hover */
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        .slide {
+            width: 200px;
+            flex-shrink: 0; /* Prevents squishing */
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide img {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            filter: grayscale(100%) contrast(1.2);
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .slide img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
             transform: scale(1.1);
         }
 
-        .clients-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 69, 0, 0.9);
-            color: #000;
-            padding: 10px;
-            transform: translateY(100%);
-            transition: 0.3s;
-            font-weight: bold;
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            /* -200px (slide width) * 14 (number of unique logos) = -2800px */
+            100% { transform: translateX(calc(-200px * 14)); }
         }
-
-        .clients-item:hover .clients-overlay { transform: translateY(0); }
-
 
         /* --- CONTACT SECTION --- */
         .contact-section {
@@ -333,7 +433,6 @@
             transition: 0.3s;
         }
         
-        /* Fix for select dropdown options visibility */
         .form-group select option { background: #000; color: #fff; }
 
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
@@ -359,15 +458,8 @@
                 clip-path: none;
                 border-bottom: 3px solid var(--primary-orange);
             }
-            .nav-logo img {
-                height: 60px; /* Slightly smaller logo on mobile */
-            }
-            .nav-links {
-                margin-top: 15px;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
+            .nav-logo img { height: 60px; }
+            .nav-links { margin-top: 15px; flex-wrap: wrap; justify-content: center; }
             .nav-links a { margin: 5px 10px; font-size: 0.9rem; }
             .portfolio-grid { grid-template-columns: 1fr; }
         }
@@ -380,7 +472,8 @@
     <nav>
         <a href="#home" class="nav-logo">
             <img src="GRAFFITI STUDIO.png" alt="Graffiti Studio">
-            <TEXT style="color: rgb(235, 235, 242); font-weight: 500; font-size: 45px; margin-left: 40px;">GRAFFITI STUDIO</TEXT>
+           
+            <h1 class="graffiti-shake">GRAFFITI STUDIO</h1>
         </a>
         
         <div class="nav-links">
@@ -443,68 +536,119 @@
                     <li>Sound Design</li>
                     <li>AI Video Generation</li>
                 </ul>
-            </div>
+            </div> 
         </div>
     </section>
+<section id="portfolio" class="section-container">
+    <h2 class="section-title glitch-font" style="text-align: right; border-left: none; border-right: 10px solid #fff; padding-right: 20px;">THE WORK</h2>
+    
+    <div class="marquee-container-work">
+        <div class="marquee-track-work">
+            
+            <div class="portfolio-slide"><img src="SHOW IMAGES/VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/8 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/9 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/10 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/11 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
 
-    <section id="portfolio" class="section-container">
-        <h2 class="section-title glitch-font" style="text-align: right; border-left: none; border-right: 10px solid #fff; padding-right: 20px;">THE WORK</h2>
-        
-        <div class="portfolio-grid">
-            <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1533518463841-d62e1fc91373?q=80&w=800&auto=format&fit=crop" alt="Graffiti Art">
-                <div class="portfolio-overlay">URBAN SHOOT</div>
-            </div>
-            <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Technology">
-                <div class="portfolio-overlay">AI GENERATION</div>
-            </div>
-            <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=800&auto=format&fit=crop" alt="Music">
-                <div class="portfolio-overlay">MUSIC VIDEO</div>
-            </div>
-            <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1626785774573-4b7993143c03?q=80&w=800&auto=format&fit=crop" alt="Editing">
-                <div class="portfolio-overlay">COMMERCIAL AD</div>
-            </div>
-            <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=800&auto=format&fit=crop" alt="Film">
-                <div class="portfolio-overlay">DOCUMENTARY</div>
-            </div>
-            <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Abstract">
-                <div class="portfolio-overlay">VFX / GFX</div>
-            </div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER.jpg"><div class="portfolio-overlay">POST PRODUCER</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER & VFX HEAD.jpg"><div class="portfolio-overlay">POST PRODUCER & VFX HEAD</div></div>
+
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/8 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/9 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/10 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/11 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER.jpg"><div class="portfolio-overlay">POST PRODUCER</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER & VFX HEAD.jpg"><div class="portfolio-overlay">POST PRODUCER & VFX HEAD</div></div>
+
         </div>
-    </section>
-
+    </div>
+</section>
     <section id="clients" class="section-container">
-        <h2 class="section-title glitch-font" style="text-align: right; border-left: none; border-right: 10px solid #fff; padding-right: 20px;">Our clients</h2>
+        <h2 class="section-title glitch-font" style="text-align: LEFT; border-left: 10px solid #fff; padding-left: 20px;">Our Clients</h2>
         
-        <div class="clients-grid">
-            <div class="clients-item">
-                <img src="https://images.unsplash.com/photo-1533518463841-d62e1fc91373?q=80&w=800&auto=format&fit=crop" alt="Graffiti Art">
-                <div class="clients-overlay">URBAN SHOOT</div>
-            </div>
-            <div class="clients-item">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Technology">
-                <div class="clients-overlay">AI GENERATION</div>
-            </div>
-            <div class="clients-item">
-                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=800&auto=format&fit=crop" alt="Music">
-                <div class="clients-overlay">MUSIC VIDEO</div>
-            </div>
-            <div class="clients-item">
-                <img src="https://images.unsplash.com/photo-1626785774573-4b7993143c03?q=80&w=800&auto=format&fit=crop" alt="Editing">
-                <div class="clients-overlay">COMMERCIAL AD</div>
-            </div>
-            <div class="clients-item">
-                <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=800&auto=format&fit=crop" alt="Film">
-                <div class="clients-overlay">DOCUMENTARY</div>
-            </div>
-            <div class="clients-item">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Abstract">
-                <div class="clients-overlay">VFX / GFX</div>
+        <div class="marquee-container">
+            <div class="marquee-track">
+                
+                <div class="slide"><img src="LOGOS/And_TV1.png" alt="And_TV"></div>
+                <div class="slide"><img src="LOGOS/Colors_TV1.png" alt="Colors_TV"></div>
+                <div class="slide"><img src="LOGOS/Disney+_Hotstar1.png" alt="Disney_Hotstar"></div>
+                <div class="slide"><img src="LOGOS/JioHotstar_20251.png" alt="JioHotstar_2025"></div>
+                <div class="slide"><img src="LOGOS/JioHotstar-logo.png" alt="JioHotstar"></div>
+                <div class="slide"><img src="LOGOS/MiniTV1.png" alt="MiniTV"></div>
+                <div class="slide"><img src="LOGOS/MTV_Logo1.png" alt="MTV_Logo"></div>
+                <div class="slide"><img src="LOGOS/netflix1.png" alt="netflix"></div>
+                <div class="slide"><img src="LOGOS/Sony_Channel.png" alt="Sony_Channel"></div>
+                <div class="slide"><img src="LOGOS/SonyLIV_2020.png" alt="SonyLIV_2020"></div>
+                <div class="slide"><img src="LOGOS/Star+_logo.jpg" alt="Star+_logo"></div>
+                <div class="slide"><img src="LOGOS/youtube1.png" alt="YOUTUBE"></div>
+                <div class="slide"><img src="LOGOS/Zee_TV-2018.png" alt="Zee_TV-2018"></div>
+                <div class="slide"><img src="LOGOS/Zee5-official.jpeg" alt="Zee5-official"></div>
+
+                <div class="slide"><img src="LOGOS/And_TV.png" alt="And_TV"></div>
+                <div class="slide"><img src="LOGOS/Colors_TV.png" alt="Colors_TV"></div>
+                <div class="slide"><img src="LOGOS/Disney+_Hotstar1.png" alt="Disney_Hotstar"></div>
+                <div class="slide"><img src="LOGOS/JioHotstar_20251.png" alt="JioHotstar_2025"></div>
+                <div class="slide"><img src="LOGOS/JioHotstar-logo.png" alt="JioHotstar"></div>
+                <div class="slide"><img src="LOGOS/MiniTV.png" alt="MiniTV"></div>
+                <div class="slide"><img src="LOGOS/MTV_Logo.png" alt="MTV_Logo"></div>
+                <div class="slide"><img src="LOGOS/netflix.png" alt="netflix"></div>
+                <div class="slide"><img src="LOGOS/Sony_Channel.png" alt="Sony_Channel"></div>
+                <div class="slide"><img src="LOGOS/SonyLIV_2020.png" alt="SonyLIV_2020"></div>
+                <div class="slide"><img src="LOGOS/Star+_logo.jpg" alt="Star+_logo"></div>
+                <div class="slide"><img src="LOGOS/youtube.png" alt="YOUTUBE"></div>
+                <div class="slide"><img src="LOGOS/Zee_TV-2018.png" alt="Zee_TV-2018"></div>
+                <div class="slide"><img src="LOGOS/Zee5-official.jpeg" alt="Zee5-official"></div>
+
             </div>
         </div>
     </section>
@@ -515,8 +659,8 @@
                 <h2 class="section-title glitch-font">We Dive Deep, <br > So You Rise High!</h2>
                 <p>Ready to create something loud? Fill out the form.</p>
                 <br>
-                <p><strong>EMAIL:</strong> rishianand@graffitistudio.in</p>
-                <p><strong>PHONE:</strong> +91 9871097871</p>
+                <p><strong>EMAIL:</strong> priyasinha0366@gmail.com</p>
+                <p><strong>PHONE:</strong> +917903483413</p>
             </div>
             
             <div style="flex: 1; min-width: 300px;">
@@ -528,8 +672,7 @@
                         <input type="email" placeholder="YOUR EMAIL" required>
                     </div>
                     <div class="form-group">
-                        
-                    </div>
+                        </div>
                     <div class="form-group">
                         <textarea rows="4" placeholder="TELL US ABOUT THE CHAOS..."></textarea>
                     </div>
@@ -541,22 +684,17 @@
 
     <footer>
         <p>&copy; 2018 GRAFFITI STUDIO. ALL RIGHTS RESERVED.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.5;"></p>
     </footer>
 
     <script>
-        // Simple JS for a "glitch" effect on title hover
         const title = document.querySelector('.main-title');
-        
         title.addEventListener('mouseenter', () => {
             title.style.textShadow = "4px 4px 0px var(--primary-orange), -4px -4px 0px blue";
         });
-
         title.addEventListener('mouseleave', () => {
             title.style.textShadow = "none";
         });
 
-        // Smooth Scroll for Nav Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
