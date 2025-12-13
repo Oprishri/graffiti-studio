@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Rubik+Glitch&display=swap" rel="stylesheet">
 
     <style>
+        
         /* --- CORE VARIABLES --- */
         :root {
             --primary-orange: #ff4500; /* Vermilion */
@@ -46,6 +47,51 @@
             opacity: 0.08;
             background: url('https://cdnjs.cloudflare.com/ajax/libs/media-element/4.2.16/renderers/dailymotion.png');
         }
+
+        @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* 2. The Unified Class */
+.main-title-shake {
+    /* Font & Typography (Merged from glitch-font & main-title) */
+    font-family: 'Cabin Sketch', system-ui, sans-serif;
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: bold;
+    line-height: 0.9;
+    
+    /* Colors */
+    color: var(--off-white, #ffffff); /* Added fallback to white if var is missing */
+    
+    /* Layout & Position */
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    transform: rotate(-2deg); /* Default tilt */
+    
+    /* Interactive Properties */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* 3. The Hover Effect */
+.main-title-shake:hover {
+    color: #ff4500; /* Orange */
+    text-shadow: 2px 2px 0px rgba(255, 69, 0, 0.4);
+    
+    /* The Shake Animation */
+    animation: shake 0.5s infinite;
+}
 
         /* --- TYPOGRAPHY --- */
         h1, h2, h3 { text-transform: uppercase; }
@@ -148,7 +194,8 @@
             min-height: 100%;
             width: 50%;
             height: 50%;
-            z-index: 0;
+            object-fit: cover;
+            z-index: 10;
             transform: translate(-50%, -50%);
             opacity: 0.4;
             filter: grayscale(50%) contrast(.9);
@@ -160,7 +207,7 @@
             max-width: 800px;
             background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
             padding: 40px;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(1px);
         }
 
         .main-title {
@@ -261,11 +308,41 @@
 
         .marquee-track-work {
             display: flex;
-            gap: 20px; /* Space between images */
+            gap: 5px; /* Space between images */
             /* Calculation: 28 items * (400px width + 20px gap) = ~11760px */
             width: max-content; 
             animation: scroll-work 60s linear infinite; 
         }
+
+/* Container to hold the rows */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between the two scrolling rows */
+    width: 100%;
+    overflow: hidden; /* Hides the scrollbar */
+}
+
+/* Animation 1: Going Right to Left (Standard) */
+.move-left {
+    animation: scroll-left 60s linear infinite;
+}
+
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-11760px); }
+}
+
+/* Animation 2: Going Left to Right (Reverse) */
+.move-right {
+    animation: scroll-right 60s linear infinite;
+}
+
+@keyframes scroll-right {
+    /* STARTS shifted to the left, slides back to 0 */
+    0% { transform: translateX(-11760px); }
+    100% { transform: translateX(0); }
+}
 
         .marquee-track-work:hover {
             animation-play-state: paused;
@@ -285,7 +362,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%) contrast(1.2);
+            filter: grayscale(0%) contrast(1.2);
             transition: 0.5s;
         }
 
@@ -391,7 +468,7 @@
             width: 100%;
             max-height: 120px;
             object-fit: contain;
-            filter: grayscale(100%) contrast(1.2);
+            filter: grayscale(0%) contrast(1.2);
             opacity: 0.7;
             transition: 0.3s;
         }
@@ -472,27 +549,27 @@
     <nav>
         <a href="#home" class="nav-logo">
             <img src="GRAFFITI STUDIO.png" alt="Graffiti Studio">
-           
-            <h1 class="graffiti-shake">GRAFFITI STUDIO</h1>
+            <TEXT style="color: rgb(235, 235, 242); font-weight: 500; font-size: 45px; margin-left: 40px;">GRAFFITI STUDIO</TEXT>
+            
         </a>
         
         <div class="nav-links">
             <a href="#home">HOME</a>
             <a href="#services">SERVICES</a>
             <a href="#portfolio">PORTFOLIO</a>
-            <a href="#client">CLIENTS</a>
+            <a href="#clients">CLIENTS</a>
             <a href="#contact">CONTACT</a>
         </div>
     </nav>
 
     <section id="home" class="hero">
-        <video class="video-bg" autoplay muted loop playsinline poster="BG.png">
+        <video class="video-bg" autoplay muted loop playsinline poster="BG1.jpg">
             <source src="" type="">
             Your browser does not support HTML5 video.
         </video>
 
         <div class="hero-content">
-            <h1 class="main-title glitch-font">
+            <h1 class="main-title-shake">
                  WE CREATE <br>
                 <span style="font-size: 10rem;">CHAOS</span>
             </h1>
@@ -543,41 +620,9 @@
     <h2 class="section-title glitch-font" style="text-align: right; border-left: none; border-right: 10px solid #fff; padding-right: 20px;">THE WORK</h2>
     
     <div class="marquee-container-work">
-        <div class="marquee-track-work">
+        <div class="wrapper">
+        <div class="marquee-track-work move-right">
             
-            <div class="portfolio-slide"><img src="/SHOW IMAGES/VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/2 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/3 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/4 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/5 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/6 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/7 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/8 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/9 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/10 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/11 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
-
-            <div class="portfolio-slide"><img src="SHOW IMAGES/PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/2 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/3 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/4 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
-
-            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/5 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/6 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/7 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
-
-            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER.jpg"><div class="portfolio-overlay">POST PRODUCER</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
-            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER & VFX HEAD.jpg"><div class="portfolio-overlay">POST PRODUCER & VFX HEAD</div></div>
-
-
             <div class="portfolio-slide"><img src="SHOW IMAGES/VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/2 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/3 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
@@ -595,6 +640,42 @@
             <div class="portfolio-slide"><img src="SHOW IMAGES/3 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/4 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
 
+            <div class="portfolio-slide"><img src="SHOW IMAGES/VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/8 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/9 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/10 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/11 VFX By GRAFFITI STUDIO.jpg"><div class="portfolio-overlay">VFX By GRAFFITI STUDIO</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 PROMO SUPERVISIOR.jpg"><div class="portfolio-overlay">PROMO SUPERVISIOR</div></div>
+        
+    </div>
+
+
+        <div class="marquee-track-work move-left">
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER.jpg"><div class="portfolio-overlay">POST PRODUCER</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
+            
+            <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER & VFX HEAD.jpg"><div class="portfolio-overlay">POST PRODUCER & VFX HEAD</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/2 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
@@ -609,10 +690,21 @@
             <div class="portfolio-slide"><img src="SHOW IMAGES/3 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST SUPERVISIOR.jpg"><div class="portfolio-overlay">POST SUPERVISIOR</div></div>
             <div class="portfolio-slide"><img src="SHOW IMAGES/POST PRODUCER & VFX HEAD.jpg"><div class="portfolio-overlay">POST PRODUCER & VFX HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/4 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/5 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/6 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
+            <div class="portfolio-slide"><img src="SHOW IMAGES/7 POST PROJECT HEAD.jpg"><div class="portfolio-overlay">POST PROJECT HEAD</div></div>
 
+            
+            
+        </div>
         </div>
     </div>
 </section>
+
+
+  
+
     <section id="clients" class="section-container">
         <h2 class="section-title glitch-font" style="text-align: LEFT; border-left: 10px solid #fff; padding-left: 20px;">Our Clients</h2>
         
